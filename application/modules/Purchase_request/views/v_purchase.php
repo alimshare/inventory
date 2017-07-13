@@ -21,7 +21,7 @@
 				<header class="panel-heading" style=" border: 1px solid #5B707B; padding: 10px 14px; background: #5B707B;">
 					<h2 class="panel-title" style="font-size: medium; color: white;">
 					<i class="fa fa-chevron-right"> </i> Purchase Request Form</h2>
-				</header>			
+				</header>
 				<div class="panel-body">
 
 					<div class="row">
@@ -42,7 +42,7 @@
 					</div>
 
 
-				<div class="row"> 
+				<div class="row">
 
 					<div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
 						<form action="" id="addnew-form" method="post" class="form-horizontal mb-lg" >
@@ -54,7 +54,7 @@
 									<div class="form-group mt-lg">
 										<label class="col-sm-2 control-label">Justification</label>
 										<div class="col-sm-10">
-											<input type="text" name="txt_justification" id="txt_justification" value="" class="form-control" placeholder="Type Justification..." > 
+											<input type="text" name="txt_justification" id="txt_justification" value="" class="form-control" placeholder="Type Justification..." >
 											<p class="help"><span id="error-justification" style="color:red"></span></p>
 										</div>
 									</div>
@@ -65,7 +65,7 @@
 										    <?php foreach ($user as $key => $value): ?>
 										      <option value="<?php echo $value['email']; ?>"><?php echo $value['username']." - ".$value['email'] ?></option>
 										    <?php endforeach ?>
-										  </select>  
+										  </select>
 										</div>
 									</div>
 
@@ -74,7 +74,7 @@
 									<div class="row">
 										<div class="col-md-12 text-right">
 											<button type="button" class="btn btn-primary" id="btnSubmitTo" name="btnSubmitTo" onclick="submitRequest()">
-												<span class="glyphicon glyphicon-floppy-saved"></span> Submit 
+												<span class="glyphicon glyphicon-floppy-saved"></span> Submit
 											</button>
 											<button class="btn btn-default modal-dismiss-form"><span class="glyphicon glyphicon-off"></span> Close </button>
 										</div>
@@ -104,7 +104,7 @@
 
 			      <form class="form-horizontal" method="post" action="<?php echo base_url('Purchase_request/do_save') ?>" id="frmRequest">
 			        <div class="box-body text-center">
-					
+
 						<input type="hidden" name="txt_mini_proposal" value="<?php echo $id_mini_proposal ?>">
 
 			          <datalist id="dlitem">
@@ -114,14 +114,14 @@
 			          <datalist id="dlqty">
 			            <option value="1">test</option>
 			          </datalist>
-			          
-			          <div class="table-responsive">     
+
+			          <div class="table-responsive">
 			            <style type="text/css">
 			              table thead tr th {
 			                text-align: center;
 			                vertical-align: middle !important;
 			              }
-			            </style>   
+			            </style>
 
 			            <input type="hidden" name="submitto" id="txt_submitto">
 			            <input type="hidden" name="txt_justification_form" id="txt_justification_form">
@@ -163,7 +163,7 @@
 			                  <td>000.000</td>
 			                  <td></td>
 			                </tr>
-			                
+
 			              </tbody>
 			            </table>
 			            <button type="button" class="btn btn-success btn-sm" onclick="createRow()"><span class="glyphicon glyphicon-plus"></span> Add Row</button>
@@ -172,13 +172,13 @@
 			        </div
 			        <div class="box-footer">
 			        	<hr>
-			          	<button type="button" class="btn btn-default btn-flat" onclick="document.location='<?php echo base_url('dashboard'); ?>'">Back</button>
+			          	<button type="button" class="btn btn-default btn-flat" onclick="document.location='<?php echo base_url('Dashboard'); ?>'">Back</button>
 						<a class="modal-with-zoom-anim btn btn-primary pull-right" href="#modalForm"><i class="fa fa-forward"></i> Submit Your Request</a>
 			          <!-- <a class="modal-with-zoom-anim btn btn-primary" href="#modalForm">Save</a> -->
 			        </div>
 			      </form>
 
-				</div>	
+				</div>
 			</div>
 		</section>
 </section>
@@ -188,7 +188,7 @@
 	function show(argument) {
 		alert('show form submit to');
 	}
-	
+
 	function createRow(){
 	    var row = document.createElement('tr'); // create row node
 	    var col1 = document.createElement('td'); // create column node
@@ -209,14 +209,14 @@
 
 	    // col1.innerHTML= "<input type='text' name='item[]' class='form-control'>";
 	    var cmbitem = "<select name='item[]' class='form-control'><?php echo $item; ?><option value='other'>Other</option></select>";
-	    col1.innerHTML= cmbitem; 
+	    col1.innerHTML= cmbitem;
 	    col2.innerHTML= "<input type='text' name='description[]' class='form-control'>";
-	    col3.innerHTML= "<input type='text' name='qty[]' class='form-control' value='0' onchange='updatePrice(this)'>"; 
+	    col3.innerHTML= "<input type='text' name='qty[]' class='form-control' value='0' onchange='updatePrice(this)'>";
 	    var cmbunit = "<select name='unit[]' class='form-control'><?php echo $unit_item; ?></select>";
-	    col4.innerHTML= cmbunit; 
+	    col4.innerHTML= cmbunit;
 	    col5.innerHTML= "<input type='text' name='price[]' class='form-control' value='0' onchange='updatePrice(this)'>";
 	    col6.innerHTML= "00.000";
-	    col7.innerHTML= "<button class='btn btn-box-tool' type='button' onclick='remove(this)'><i class='fa fa-times'></i></button>"; 	
+	    col7.innerHTML= "<button class='btn btn-box-tool' type='button' onclick='remove(this)'><i class='fa fa-times'></i></button>";
 	    var table = document.getElementById("requestBody"); // find table to append to
 	    table.appendChild(row); // append row to table
 	}
@@ -226,7 +226,7 @@
 		document.getElementById("tableRequest").deleteRow(rowIndex);
 	}
 
-	function updatePrice(x){		
+	function updatePrice(x){
 		var rowIndex = x.parentNode.parentNode.rowIndex;
 		var tbl = document.getElementById("tableRequest");
 		var row = tbl.rows[rowIndex].cells;
@@ -322,7 +322,7 @@
 	<?php else: ?>
 		<script type="text/javascript">
 			var x = document.getElementById("alert-failure").style.display = "block";
-		</script>		
+		</script>
 	<?php endif ?>
 <?php endif ?>
 
@@ -336,8 +336,8 @@
 			$("#error-justification").html("This field is required");
 			$("#txt_justification").focus();
 		} else {
-			$("#txt_justification_form").val(Justification);	
-			$("#frmRequest").submit();		
+			$("#txt_justification_form").val(Justification);
+			$("#frmRequest").submit();
 		}
 	}
 
