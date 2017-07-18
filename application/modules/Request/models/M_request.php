@@ -430,6 +430,19 @@ class M_request extends CI_Model {
         return $data;
     }
 
+    function getItemAsOption($condition="")
+    {
+    	$sql 	= "SELECT * FROM tb_items ";
+    	if ($condition != "") $sql .= " WHERE $condition ";
+
+		$result = $this->db->query($sql)->result_array();		
+		$option_item = "";
+		foreach ($result as $key => $value) {
+			$option_item .= "<option value='".$value['item_name']."'>".$value['item_name']."</option>";
+		}
+		
+		return $option_item;
+    }
 
 
 
@@ -533,6 +546,18 @@ class M_request extends CI_Model {
 		}
         return $data;
     }
+
+    function getSendEmailData($id){
+		$sql 	= "	SELECT 	T1.*,date(T1.create_date) dateCreate,
+							T2.username submittoUsername, T3.username submitfromUsername
+ 					FROM 	tb_mini_proposal T1 
+ 							LEFT JOIN tb_userapp T2 ON T2.email=T1.submitto
+ 							LEFT JOIN tb_userapp T3 ON T3.email=T1.submitfrom
+					WHERE 	1=1 AND T1.id='".$id."'";
+		
+		return $this->db->query($sql)->row();
+    }
+
 }
 
 ?>

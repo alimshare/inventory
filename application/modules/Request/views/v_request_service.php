@@ -102,7 +102,22 @@
 
 
 
-		      <form class="form-horizontal" method="post" action="<?php echo base_url('Purchase_request/saveServices') ?>" id="frmRequest">
+			<div class="row">
+				<div class="col-md-12">
+					<?php if (isset($message)): ?>
+						<div id="msg-success" class="alert alert-success" style="display:block;">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+							<?php echo $message; ?>
+						</div>
+					<?php endif ?>
+					<div id="msg-error" class="alert alert-danger" style="display:none;">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+						<span id="msg-error-text"></span>
+					</div>
+				</div>
+			</div>
+			
+		      <form class="form-horizontal" method="post" action="<?php echo base_url('Request/Services/saveServices') ?>" id="frmRequest">
 		        <div class="box-body text-center">
 
 		          <datalist id="dlitem">

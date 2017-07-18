@@ -101,6 +101,20 @@
 				</div>
 
 
+				<div class="row">
+					<div class="col-md-12">
+						<?php if (isset($message)): ?>
+							<div id="msg-success" class="alert alert-success" style="display:block;">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+								<?php echo $message; ?>
+							</div>
+						<?php endif ?>
+						<div id="msg-error" class="alert alert-danger" style="display:none;">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+							<span id="msg-error-text"></span>
+						</div>
+					</div>
+				</div>
 
 			      <form class="form-horizontal" method="post" action="<?php echo base_url('Purchase_request/do_save') ?>" id="frmRequest">
 			        <div class="box-body text-center">
@@ -314,17 +328,17 @@
 
 <script src="<?=base_url();?>assets/adporto/javascripts/tables/examples.datatables.tabletools.js"></script>
 
-<?php if (isset($message)): ?>
-	<?php if ($message == "success"): ?>
-		<script type="text/javascript">
+<?php #if (isset($message)): ?>
+	<?php #if ($message == "success"): ?>
+		<!-- <script type="text/javascript">
 			document.getElementById("alert-success").style.display = "block";
-		</script>
-	<?php else: ?>
-		<script type="text/javascript">
+		</script> -->
+	<?php #else: ?>
+		<!-- <script type="text/javascript">
 			var x = document.getElementById("alert-failure").style.display = "block";
-		</script>
-	<?php endif ?>
-<?php endif ?>
+		</script> -->
+	<?php #endif ?>
+<?php #endif ?>
 
 <script type="text/javascript">
 

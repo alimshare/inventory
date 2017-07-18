@@ -69,11 +69,6 @@
 					<table class="table table-bordered table-striped mb-none" id="datatable-ajax">
 						<thead>
 							<tr>
-								<!-- <th><input type="checkbox" id="txt_check_all"  name="txt_check_all"></th>
-								<th></th>
-								<th>Purchase Date</th>
-								<th>PO No.</th>
-								<th>Unit Cost (IDR)</th> -->
 								<th>Item & Brand</th>
 								<th>User/PiC</th>
 								<th>Location/ Department</th>

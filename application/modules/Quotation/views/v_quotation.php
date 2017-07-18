@@ -46,7 +46,7 @@
 			<div class="panel col-md-12">
 				<header class="panel-heading" style=" border: 1px solid #5B707B; padding: 10px 14px; background: #5B707B;">
 					<h2 class="panel-title" style="font-size: medium; color: white;"><i class="fa fa-chevron-right"> </i> Quotation</h2>
-				</header>			
+				</header>
 				<div class="panel-body">
 
 					<div class="tabs">
@@ -67,7 +67,7 @@
 									<section class="panel mt-lg">
 
 										<form action="<?php echo base_url('Quotation/save') ?>" id="frmQuotation" method="post" class="form-horizontal mb-lg" enctype="multipart/form-data">
-					
+
 											<div class="form-group">
 												<label class="col-sm-3 control-label">To</label>
 												<div class="col-sm-9">
@@ -80,7 +80,7 @@
 													<select name="txt_otherVendor[]" multiple="" data-role="tagsinput" id="otherVendorContainer"></select>
 												</div>
 											</div>
-											
+
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Nomor PR</label>
 												<div class="col-sm-9">
@@ -166,6 +166,7 @@
 											<footer class="panel-footer">
 												<div class="row">
 													<div class="col-md-12 text-right">
+								          	<button type="button" class="btn btn-default btn-flat pull-left" onclick="document.location='<?php echo base_url('Dashboard'); ?>'">Back</button>
 														<a href='#modalConfirm' class="modal-with-zoom-anim on-default btn btn-primary" id="btn_save" name="btn_save"><span class="glyphicon glyphicon-floppy-saved"></span> Save </a>
 													</div>
 												</div>
@@ -178,7 +179,7 @@
 									<section class="panel mt-lg">
 
 										<form action="<?php echo base_url('quotation/saveWinner') ?>" id="frmWinner" method="post" class="form-horizontal mb-lg" >
-											
+
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Purchase Request Number</label>
 												<div class="col-sm-9">
@@ -192,7 +193,7 @@
 														<?php if (count(@$quotation) > 0): ?>
 															<?php foreach ($quotation as $key => $value): ?>
 																<option value="<?php echo $value['id'] ?>"><?php echo $value['vendor_name'] ?></option>
-															<?php endforeach ?>															
+															<?php endforeach ?>
 														<?php endif ?>
 													</select>
 												</div>
@@ -242,7 +243,7 @@
 												<div class="row">
 													<div class="col-md-12 text-right">
 														<?php if (isset($purchase_number)): ?>
-															<a href='#modalConfirm2' class="modal-with-zoom-anim on-default btn btn-primary" id="btn_save" name="btn_save"><span class="glyphicon glyphicon-floppy-saved"></span> Save </a>															
+															<a href='#modalConfirm2' class="modal-with-zoom-anim on-default btn btn-primary" id="btn_save" name="btn_save"><span class="glyphicon glyphicon-floppy-saved"></span> Save </a>
 														<?php endif ?>
 													</div>
 												</div>
@@ -272,10 +273,10 @@
 													<td><?php echo $value['purchase_request_number']; ?></td>
 													<td>
 														<?php if ($value['status']=="WINNER"): ?>
-																<a href="<?php echo base_url('memo') ?>" class="btn btn-primary btn-sm" id="" name=""> Process </a>				
+																<a href="<?php echo base_url('memo') ?>" class="btn btn-primary btn-sm" id="" name=""> Process </a>
 														<?php endif ?>
 													</td>
-												</tr>							
+												</tr>
 											<?php endforeach ?>
 										</tbody>
 									</table> -->
@@ -309,16 +310,16 @@
 													<td><?php echo $value['status'] ?></td>
 													<td>
 														<?php #if ($value['status']<>"CLOSED"): ?>
-																<a href="<?php echo base_url('Memo/index/').$value['id'] ?>" class="btn btn-primary btn-sm" id="" name=""> Process </a>				
-														<?php #endif ?>														
+																<a href="<?php echo base_url('Memo/index/').$value['id'] ?>" class="btn btn-primary btn-sm" id="" name=""> Process </a>
+														<?php #endif ?>
 													</td>
-												</tr>												
+												</tr>
 											<?php endforeach ?>
 										</tbody>
 									</table>
 								</div>
 
-								
+
 								<div id="modalConfirm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
 									<section class="panel">
 										<header class="panel-heading">
@@ -362,9 +363,9 @@
 						</form>
 
 					</div>
-						
+
 				</div>
-							
+
 			</div>
 		</section>
 </section>
@@ -437,7 +438,7 @@
 <!-- <script src="<?=base_url();?>assets/adporto/javascripts/tables/examples.datatables.tabletools.js"></script> -->
 
 <script type="text/javascript">
-	
+
 	(function($){
 		$("#otherVendorContainer").tagsinput({
 			itemValue: 'value',
@@ -457,7 +458,7 @@
 
 
 	}).apply(this, [jQuery]);
-	
+
 
 </script>
 <?php if (isset($message)): ?>
@@ -468,16 +469,16 @@
 	<?php else: ?>
 		<script type="text/javascript">
 			var x = document.getElementById("alert-failure").style.display = "block";
-			<?php 
+			<?php
 				$str_error = "";
 				if (count($_SESSION['error_arr'])>0){
-					for ($i=0; $i < count($_SESSION['error_arr']); $i++) { 
+					for ($i=0; $i < count($_SESSION['error_arr']); $i++) {
 						$str_error .= "<br>".$_SESSION['error_arr'][$i];
 					}
 				}
 			?>
 			document.getElementById("span-failure").innerHTML = "<?php echo $str_error; ?>";
-		</script>		
+		</script>
 	<?php endif ?>
 <?php endif ?>
 <script type="text/javascript">

@@ -69,17 +69,17 @@
 					<div class="modal-wrapper">
 						<div class="row">
 							<div class="col-md-4" style="border: 0px solid #232; padding-left: 5px; padding-right: 5px;">
-								<a href="<?php echo base_url('Request/directFund') ?>" class="col-sm-12 mb-xs mr-xs btn btn-lg btn-default">
+								<a href="<?php echo base_url('Request/DirectFund') ?>" class="col-sm-12 mb-xs mr-xs btn btn-lg btn-default">
 									<i class=" fa-2x fa fa-circle"></i><br/><h6><br/>Direct<br>Fund</h6>
 								</a>
 							</div>
 							<div class="col-md-4" style="border: 0px solid #232; padding-left: 5px; padding-right: 5px;">
-								<a href="<?php echo base_url('Request/services') ?>" class="col-sm-12 mb-xs mr-xs btn btn-lg btn-default">
+								<a href="<?php echo base_url('Request/Services') ?>" class="col-sm-12 mb-xs mr-xs btn btn-lg btn-default">
 									<i class=" fa-2x fa fa-circle"></i><br/><h6><br/><br>Services</h6>
 								</a>
 							</div>
 							<div class="col-md-4" style="border: 0px solid #232; padding-left: 5px; padding-right: 5px;">
-								<a href="<?php echo base_url('Request/consumableStuff') ?>" class="col-sm-12 mb-xs mr-xs btn btn-lg btn-default">
+								<a href="<?php echo base_url('Request/ConsumableStuff') ?>" class="col-sm-12 mb-xs mr-xs btn btn-lg btn-default">
 									<i class=" fa-2x fa fa-circle"></i><br/><h6><br/>Consumable<br>Stuff</h6>
 								</a>
 							</div>

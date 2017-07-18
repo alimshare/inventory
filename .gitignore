@@ -63,3 +63,5 @@ application/logs
 application/index.html
 application/.htaccess
 application/cache
+application/config/email.php
+application/config/database.php

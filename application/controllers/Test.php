@@ -24,7 +24,7 @@ class Test extends CI_Controller {
 		if (!$status) {
 			// Will only print the email headers, excluding the message subject and body
 			echo $this->email->print_debugger(array('headers'));
-			echo $attachment;
+			// echo $attachment;
 			die();
 		}
 

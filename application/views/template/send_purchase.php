@@ -31,7 +31,7 @@
 			<?php foreach ($data['data'] as $key => $val): ?>
 				<tr>
 					<td><?php echo $val['item'] ?></td>
-					<td><?php echo $val['op_titel'].', '.$val['description'] ?></td>
+					<td><?php echo $val['description'] ?></td>
 					<td><?php echo $val['qty'] ?></td>
 					<td><?php echo $val['unit'] ?></td>
 				</tr>			

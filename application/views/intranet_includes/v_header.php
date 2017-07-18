@@ -57,6 +57,8 @@
 
 	</head>
 	<body>
+
+<img src="<?php echo base_url().'images/loaders/please_wait.gif'; ?>" style="position:fixed;top:25%;left:35%;display:none;z-index:3" id="loader">
 		<section class="body">
 
 			<!-- start: header -->
@@ -218,21 +220,21 @@
 
 									<li class="<?php if(isset($menu_titel) && $menu_titel=="quotation"){ echo "nav-active"; } ?>">
 										<a href="<?php echo base_url('Quotation') ?>">
-											<i class="fa fa-circle" aria-hidden="true"></i>
+											<i class="fa fa-bullhorn" aria-hidden="true"></i>
 											<span>Quotation</span>
 										</a>
 									</li>
 
 									<li class="<?php if(isset($menu_titel) && $menu_titel=="memo"){ echo "nav-active"; } ?>">
 										<a href="<?php echo base_url('Memo') ?>">
-											<i class="fa fa-circle" aria-hidden="true"></i>
+											<i class="fa fa-sticky-note-o" aria-hidden="true"></i>
 											<span>Selection Memo</span>
 										</a>
 									</li>
 
 									<li class="<?php if(isset($menu_titel) && $menu_titel=="po"){ echo "nav-active"; } ?>">
 										<a href="<?php echo base_url('Po') ?>">
-											<i class="fa fa-circle" aria-hidden="true"></i>
+											<i class="fa fa-calendar" aria-hidden="true"></i>
 											<span>Purchase Order</span>
 										</a>
 									</li>

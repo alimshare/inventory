@@ -16,6 +16,10 @@ class Request extends CI_Controller {
 		if(!$this->authenty->check_subscriber()){
 			redirect(base_url().'Logout');
 		}
+
+        $this->load->library('FPDF_Custom');
+		define('FPDF_FONTPATH',$this->config->item('fonts_path'));
+
 	}
 
 	public function index()
@@ -56,14 +60,7 @@ class Request extends CI_Controller {
 		$this->load->view('intranet_includes/v_footer.php');
 	}
 
-	public function test(){
-		$_SESSION['message'] = "success";
-		redirect('Request/form');		
-	}
-
-	public function do_save(){
-		// echo "<pre>";
-		// print_r($this->input->post());		
+	public function do_save(){		
 
 		$user_id 	= $_SESSION['us_id'];
 		$user_login = $_SESSION['us_user'];
@@ -110,8 +107,6 @@ class Request extends CI_Controller {
 			print_r($data);
 			echo "</pre>";
 			echo "<br>";
-			// echo $this->db->last_query();
-			// die('fail');
 		}
 
 		// $_SESSION['message'] = $message;
@@ -244,25 +239,6 @@ class Request extends CI_Controller {
 		return $status;
 	}
 
-	function testSendEmail(){
-		// $sql 	= "
-		// 		SELECT 
-		// 			T1.id, number, request_number,COALESCE(username,'root') username,T1.account_name,
-		// 			DATE_FORMAT(T1.create_date,'%d %M %Y') tanggal, submitto, submitfrom,
-		// 			T1.list_id, T1.project_id, T1.loca_id,
-		// 			T3.op_titel as item, T4.op_titel as brand, T2.list_model, T2.list_sn,
-		// 			T5.loca_name,T5.loca_province, token
-		// 		FROM tb_request T1 
-		// 			INNER JOIN tb_lists T2 ON T1.list_id=T2.list_id
-		// 			LEFT JOIN tb_options T3 ON T3.op_kode=T2.list_item AND T3.op_tipe='Items' 
-		// 			LEFT JOIN tb_options T4 ON T4.op_kode=T2.list_brand AND T4.op_tipe='Brands' AND T4.op_paren=T2.list_item
-		// 			LEFT JOIN tb_locations T5 ON T5.loca_code=T2.list_location_code
-		// 			LEFT JOIN tb_userapp T6 ON T6.id = T1.user_id 
-		// 		WHERE 1=1  AND T1.id='8'";
-		// $rec = $this->db->query($sql)->row();
-		// $this->send_email($rec);
-	}
-
 	function data_json($get=""){
 		
 		$str='';
@@ -328,81 +304,6 @@ class Request extends CI_Controller {
 
 	}
 
-	function directFund(){	
-		$data['menu_titel']	= $this->menu_titel;
-		$data['page_titel']	= "";
-		$data['smenu_titel']='Direct Fund';
-		$data['authen'] 	= $this->authenty->sess();	
-
-		$sql 				= "SELECT id,account_name,username,email FROM tb_userapp WHERE trash !=1 AND role='OPERATION'";
-		$data['user'] 		= $this->db->query($sql)->result_array();
-		
-		$this->load->view('intranet_includes/v_header.php', $data);
-		$this->load->view('v_direct_fund.php');
-		$this->load->view('intranet_includes/v_footer.php');
-	}
-
-	function services(){
-		$data['menu_titel']	= $this->menu_titel;
-		$data['page_titel']	= "";
-		$data['smenu_titel']='Request Service';
-		$data['authen'] 	= $this->authenty->sess();	
-
-		$sql = "SELECT * FROM tb_items WHERE item_category='item_unit' ORDER BY item_name";
-		$result = $this->db->query($sql)->result_array();		
-		$option_item = "";
-		foreach ($result as $key => $value) {
-			$option_item .= "<option value='".$value['item_name']."'>".$value['item_name']."</option>";
-		}
-		$data['unit_item'] = $option_item;
-		
-		$sql = "select * from tb_vendor_category order by tb_vendor_category.category_name";
-		$result = $this->db->query($sql)->result_array();		
-		$option_item = "";
-		foreach ($result as $key => $value) {
-			$option_item .= "<option value='".$value['category_id']."'>".$value['category_name']."</option>";
-		}
-		$data['vendor_category'] = $option_item;
-		
-		$sql 				= "SELECT id,account_name,username,email FROM tb_userapp WHERE trash !=1 AND role='OPERATION'";
-		$data['user'] 		= $this->db->query($sql)->result_array();
-
-		$this->load->view('intranet_includes/v_header.php', $data);
-		$this->load->view('v_request_service.php');
-		$this->load->view('intranet_includes/v_footer.php');
-	}
-
-	function consumableStuff(){
-		$data['menu_titel']	= $this->menu_titel;
-		$data['page_titel']	= "";
-		$data['smenu_titel']='Request Consumable Stuff';
-		$data['authen'] 	= $this->authenty->sess();	
-
-		$sql = "SELECT * FROM tb_items WHERE item_category='item_unit' ORDER BY item_name";
-		$result = $this->db->query($sql)->result_array();		
-		$option_item = "";
-		foreach ($result as $key => $value) {
-			$option_item .= "<option value='".$value['item_name']."'>".$value['item_name']."</option>";
-		}
-		$data['unit_item'] = $option_item;
-		
-		$sql = "select distinct item_category category from tb_items WHERE item_category NOT IN ('duration','item_unit') order by category ";
-		$result = $this->db->query($sql)->result_array();		
-		$option_item = "";
-		foreach ($result as $key => $value) {
-			$option_item .= "<option value='".$value['category']."'>".$value['category']."</option>";
-		}
-		$data['consumable_stuff'] = $option_item;
-
-		$sql 				= "SELECT id,account_name,username,email FROM tb_userapp WHERE trash !=1 AND role='OPERATION'";
-		$data['user'] 		= $this->db->query($sql)->result_array();
-
-		$this->load->view('intranet_includes/v_header.php', $data);
-		$this->load->view('v_request_consumable_stuff.php');
-		$this->load->view('intranet_includes/v_footer.php');
-
-	}
-
 	function electronicRequest(){
 		$data['menu_titel']	= $this->menu_titel;
 		$data['page_titel']	= "";
@@ -426,179 +327,6 @@ class Request extends CI_Controller {
 
 	}
 
-
-	function saveDirectFund(){
-		// echo "<pre>";
-
-		$background = $this->input->post('txt_background');
-		$what = $this->input->post('txt_what');
-		$why = $this->input->post('txt_why');
-		$who = $this->input->post('txt_who');
-		$where = $this->input->post('txt_where');
-		$date_start = $this->input->post('txt_from');
-		$date_end = $this->input->post('txt_to');
-		$justification = $this->input->post('txt_justification');
-		
-		$num_participant = $this->input->post('txt_num_participant');
-		$num_guess = $this->input->post('txt_num_guess');
-		$num_staff = $this->input->post('txt_num_staff');
-		$num_person = $this->input->post('txt_num_person');
-		$num_faciliator = $this->input->post('txt_num_facilitator');
-		
-		$isFullDay = $this->input->post('isFullDay');
-		$isHalfDay = $this->input->post('isHalfDay');
-		$isHotel = $this->input->post('isHotel');
-		$isPerdiem = $this->input->post('isPerdiem');
-		$isTransportation = $this->input->post('isTransportation');
-		$isMisc = $this->input->post('isMisc');
-		$isPrinting = $this->input->post('isPrinting');
-		$isAirplaneTicket = $this->input->post('isAirplaneTicket');
-
-		$create_by 		= trim($this->authenty->session_user());
-		$create_date 	= date("Y-m-d H:i:s");
-		$submitto		= $this->input->post('txt_submitto');
-		$submitfrom		= $_SESSION['email'];
-
-		$data = array(
-			'background' => $background,	
-			'what' => $what,	
-			'why' => $why,	
-			'who' => $who,	
-			'where_location' => $where,	
-			'date_start' => $date_start,	
-			'date_end' => $date_end,	
-			'justification' => $justification,	
-			'num_participant' => $num_participant,	
-			'num_guess' => $num_guess,	
-			'num_staff' => $num_staff,	
-			'num_person' => $num_person,	
-			'num_facilitator' => $num_faciliator,	
-			'isFullDay' => $isFullDay,	
-			'isHalfDay' => $isHalfDay,	
-			'isHotel' => $isHotel,	
-			'isPerdiem' => $isPerdiem,	
-			'isTransportation' => $isTransportation,	
-			'isMisc' => $isMisc,	
-			'isPrinting' => $isPrinting,	
-			'isAirplaneTicket' => $isAirplaneTicket,
-
-			'create_by'	=> $create_by,	
-			'create_date'	=> $create_date,
-			'token'		=> sha1($create_date.$create_by),
-			'status'	=> 'PENDING',
-			'submitto'	=> $submitto,
-			'submitfrom'=> $submitfrom
-		);
-
-		$status = $this->db->insert('tb_mini_proposal', $data);
-		if ($status){
-			// echo "success";
-			// create mini proposal & send email
-			$insert_id = $this->db->insert_id();
-			$this->miniProposal($insert_id, true);
-		} else {
-			// echo "failed";
-		}
-
-		// print_r($data);
-
-		// echo "</pre>";
-	}
-
-	function miniProposal($id, $send_email = false){
-        $this->load->library('FPDF_Custom');
-		define('FPDF_FONTPATH',$this->config->item('fonts_path'));
-
-		$path 	= $this->config->item('mini_proposal_path');
-
-		$sql 	= "	SELECT T1.*,date(T1.create_date) dateCreate,T2.username submittoUsername, T3.username submitfromUsername
- 					FROM tb_mini_proposal T1 LEFT JOIN tb_userapp T2 ON T2.email=T1.submitto
- 					LEFT JOIN tb_userapp T3 ON T3.email=T1.submitfrom
-					WHERE 1=1 AND T1.id='".$id."'";
-		$rec 	= $this->db->query($sql)->row();
-// echo $this->db->last_query(); die();
-
-		$pdf = new FPDF_Custom();
-		$parameter['pdf'] 	= $pdf;
-		$parameter['data'] 	= $rec;
-
-// echo "<pre>"; print_r($parameter);die();
-		// $parameter['data']->path = 'images/items/';
-		$this->load->view('mini_proposal_pdf',$parameter);
-
-		$pdf->Output();
-		// if (!file_exists($path.$filename)){
-		// 	$pdf->Output($path.$filename,'F');
-		// } else {
-		// 	$filename = "";
-		// }
-
-		$result = false;
-
-		$msg = "error";
-
-		$filename = $id."-miniprop-".date('YmdHis').".pdf";
-		if ($rec->attachment == ""){
-			// $pdf->Output($path.$filename,'F');
-			$data_update = array(
-				'attachment'	=> $filename
-			);
-    		$this->db->where_in('id', $id);
-    		// $status = $this->db->update('tb_mini_proposal', $data_update);
-		}
-
-		if ($send_email){
-			// $status = $this->send_mini_proposal($rec);
-			if ($status){
-				$msg = "success";
-				$result = true;
-			}
-		} else {			
-			$msg = "success";
-			$result = true;
-		}
-
-
-		// echo $msg;
-		return $result;
-	}
-
-	private function send_mini_proposal($data){	
-
-		$this->load->library('email');
-
-		$data->link_approve 	= base_url('Link/confirmMini').'/'.$data->token.'/'.base64_encode("APPROVE");
-		$data->link_reject 		= base_url('Link/confirmMini').'/'.$data->token.'/'.base64_encode("REJECT");
-
-		$parameter['data']		= $data;
-		$text = $this->load->view('template/send_mini',$parameter, TRUE);
-
-		$this->email->from($this->config->item('app_email'), 'Procurement Team - FHI 360 Indoensia');
-		$this->email->to($data->submitto);
-
-		$this->email->subject('Mini Proposal');
-		$this->email->message($text);
-		
-		// Attachment 
-		$filename = $data->attachment;
-		$fullpath = $this->config->item('mini_proposal_path').$filename;
-		$this->email->attach($fullpath);
-
-		// echo "<pre>";
-		// print_r($this->email);
-		// die();
-
-		$status = $this->email->send(FALSE);
-		if (!$status) {
-			// Will only print the email headers, excluding the message subject and body
-			echo $this->email->print_debugger(array('headers'));
-		 	log_message('error', $this->email->print_debugger(array('headers')));
-			die();
-		}
-
-		return $status;
-	}
-
 	function get_purchase_number(){		
 		$year 	= date("Y");
 		$month 	= date("m");
@@ -618,6 +346,12 @@ class Request extends CI_Controller {
 			}
 		}
 		return $data;
+	}
+
+
+	public function test(){
+		$_SESSION['message'] = "success";
+		redirect('Request/directFund');		
 	}
 
 
