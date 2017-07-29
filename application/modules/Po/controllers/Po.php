@@ -156,7 +156,7 @@ class Po extends CI_Controller {
 			$this->db->insert('tb_purchases', $data_insert);
 
 			$po_id = $this->db->insert_id();
-			$this->word($pur_id);
+			$this->word($po_id);
 
 			echo 'ok';
 		}

@@ -11,30 +11,40 @@ class Link extends CI_Controller {
 
 	public function index()
 	{
-		// $this->load->view('welcome_message');
+		$this->load->view('message/confirmation_message');
 	}
 
 	public function submission($token=''){
-		$message = "";
+		$message 	= "";
+		$stat 		= "";
+		$type 		= "";
+
 		if ($token == ""){
 			$message = "Token tidak valid";
+			$stat 	 = "Peringatan ! ";
+			$type 	 = "warning";
 		} else {
 			$sql = "SELECT T1.*, T2.subject, T2.submission_date, T2.purchase_number, T2.specification, T2.status statusQuotation, T3.vendor_name vendor
 					from tb_quotation_recipient T1 inner join tb_quotation T2 on T1.quotation_id=T2.id left join tb_vendor T3 on T3.vendor_email=t1.email 
 					where token ='$token'";
 			$result = $this->db->query($sql)->row_array();
-			// print_r($result);
-			// die();
+
 			if (count($result) == 0){
 				$message = "Token tidak valid";
+				$stat 	 = "Peringatan ! ";
+				$type 	 = "warning";
 			} else {
 				$result['token'] = $token;
 				if ($result['status']=="SUBMITTED"){
 					if (isset($_SESSION['message'])){
-						echo $_SESSION['message'];
+						$message 	= $_SESSION['message'];
+						$stat 	 	= "Success ! ";
+						$type 	 	= "success";	
 			    		unset($_SESSION['message']);			
 					} else {
-						$message = "Data sudah di submit, harap menghubungi admin jika ingin melakukan perbaikan data.";						
+						$message 	= "Data sudah di submit, harap menghubungi admin jika ingin melakukan perbaikan data.";	
+						$stat 	 	= "Success ! ";
+						$type 	 	= "success";					
 					}
 				} else {
 					$this->load->view('other/v_submission',$result);
@@ -42,7 +52,11 @@ class Link extends CI_Controller {
 			}
 		}
 
-		echo $message;
+		// echo $message;
+		$parameter['type'] 		= $type;
+		$parameter['status'] 	= $stat;
+		$parameter['message'] 	= $message;
+		$this->load->view('message/confirmation_message', $parameter);
 	}
 
 	public function submitQuotation(){
@@ -157,12 +171,17 @@ class Link extends CI_Controller {
 	/* Response Request menggunakan Email */
 	public function confirmRequest($token, $response){
 		$message 	= "";
+		$stat 		= "";
+		$type 		= "";
+
 		$result 	= false;
-		echo $response = base64_decode($response);
-		echo "<br>";
+		$response = base64_decode($response);
+		// echo "<br>";
 
 		if ($response != "APPROVE" && $response != "REJECT") {
 			$message	= "Respon tidak valid";
+			$stat 	 	= "Error ! ";
+			$type 	 	= "danger";
 		} else {
 			$sql 		= "SELECT id,status,attachment,submitfrom,list_id,account_name,request_number FROM tb_request WHERE token='$token'";
 			$execute 	= $this->db->query($sql);
@@ -181,9 +200,13 @@ class Link extends CI_Controller {
 						
 						$attachment = $this->config->item('request_path').$row->attachment;
 						if ($response == "APPROVE"){
-							$message = "Request Approved";
+							$message 	= "Request Approved";
+							$stat 	 	= "Approve";
+							$type 	 	= "success";
 						} else {
 							$message 	= "Request Rejected";
+							$stat 	 	= "Rejected";
+							$type 	 	= "success";
 							$attachment = ""; // attachment hanya dikirim jika request APPROVE
 						}
 
@@ -199,21 +222,35 @@ class Link extends CI_Controller {
 							}
 
 							$message = "\"The request has been approved\". Please check your email and or go to dashboard and view \"Aprove/Reject Menu\"";
+							$stat 	 	= "Info";
+							$type 	 	= "info";
 							$result = true;
 
 						} else {
-							$message = "Send Email Failed ";
+							$message 	= "Send Email Failed ";
+							$stat 	 	= "Error, ";
+							$type 	 	= "danger";
 						}
 					}				
 				} else {
 					$message = "Token sudah tidak berlaku";
+					$stat 	 = "Peringatan ! ";
+					$type 	 = "warning";
 				}
 			} else {
 				$message = "Token tidak valid";
+				$stat 	 = "Peringatan ! ";
+				$type 	 = "warning";
 			}
 		}
 
-		echo $this->message = $message;
+		// echo $this->message = $message;
+		
+		$parameter['type'] 		= $type;
+		$parameter['status'] 	= $stat;
+		$parameter['message'] 	= $message;
+		$this->load->view('message/confirmation_message', $parameter);
+
 		return $result;
 	}
 
@@ -230,12 +267,17 @@ class Link extends CI_Controller {
 
 	public function confirmPurchase($token, $response){
 		$message 	= "";
+		$stat 		= "";
+		$type 		= "";
 		$result 	= false;
-		echo $response = base64_decode($response);
-		echo "<br>";
+		
+		$response = base64_decode($response);
+		// echo "<br>";
 
 		if ($response != "APPROVE" && $response != "REJECT") {
 			$message	= "Respon tidak valid";
+			$stat 	 	= "Error ! ";
+			$type 	 	= "danger";
 		} else {
 			$sql 		= "SELECT id,status,attachment,submitfrom,create_by,user_id,purchase_number FROM tb_purchase_header WHERE token='$token'";
 			$execute 	= $this->db->query($sql);
@@ -255,28 +297,47 @@ class Link extends CI_Controller {
 						$attachment = $this->config->item('purchase_path').$row->attachment;
 						if ($response == "APPROVE"){
 							$message = "Purchase Request Approved";
+							$stat 	 	= "Approved ! ";
+							$type 	 	= "success";
 						} else {
 							$message 	= "Purchase Request Rejected";
+							$stat 	 	= "Rejected ! ";
+							$type 	 	= "success";
 							$attachment = ""; // attachment hanya dikirim jika request APPROVE
 						}
 
 						$isSend = $this->send_email($row->submitfrom , 'Purchase Request '.$response.' : '.$row->purchase_number, $message, $attachment);
 						if ($isSend){
-							$message = "purchase request has been ".$response;	
+							// $message = "purchase request has been ".$response;
+							$message = "\"The purchase request has been approved\". Please check your email and or go to dashboard and view \"Aprove/Reject Menu\"";
+							$stat 	 	= "Info";
+							$type 	 	= "info";	
 							$result = true;						
 						} else {
 							$message = "Send Email Failed ";
+							$stat 	 	= "Error, ";
+							$type 	 	= "danger";
 						}
 					}				
 				} else {
 					$message = "Token sudah tidak berlaku";
+					$stat 	 = "Peringatan ! ";
+					$type 	 = "warning";
 				}
 			} else {
 				$message = "Token tidak valid";
+				$stat 	 = "Peringatan ! ";
+				$type 	 = "warning";
 			}
 		}
 
-		echo $this->message = $message;
+		// echo $this->message = $message;
+		
+		$parameter['type'] 		= $type;
+		$parameter['status'] 	= $stat;
+		$parameter['message'] 	= $message;
+		$this->load->view('message/confirmation_message', $parameter);
+
 		return $result;
 	}
 
@@ -293,12 +354,17 @@ class Link extends CI_Controller {
 
 	public function confirmMini($token, $response){
 		$message 	= "";
+		$stat 		= "";
+		$type 		= "";
 		$result 	= false;
-		echo $response = base64_decode($response);
-		echo "<br>";
+		
+		$response = base64_decode($response);
+		// echo "<br>";
 
 		if ($response != "APPROVE" && $response != "REJECT") {
 			$message	= "Respon tidak valid";
+			$stat 	 	= "Error ! ";
+			$type 	 	= "danger";
 		} else {
 			$sql 		= "SELECT id,status,attachment,submitfrom,create_by,background FROM tb_mini_proposal WHERE token='$token'";
 			$execute 	= $this->db->query($sql);
@@ -317,38 +383,49 @@ class Link extends CI_Controller {
 						
 						$attachment = $this->config->item('mini_proposal_path').$row->attachment;
 						if ($response == "APPROVE"){
-							$message = "Mini Proposal Approved <br> <p>".$row->background."</p>";
+							$message 	= "Mini Proposal Approved <br> <p>".$row->background."</p>";
+							$stat 	 	= "Approved ! ";
+							$type 	 	= "success";
 						} else {
-							$message = "Mini Proposal Rejected <br> <p>".$row->background."</p>";
+							$message 	= "Mini Proposal Rejected <br> <p>".$row->background."</p>";
+							$stat 	 	= "Rejected ! ";
+							$type 	 	= "success";
 							$attachment = ""; // attachment hanya dikirim jika request APPROVE
 						}
 
 						$isSend = $this->send_email($row->submitfrom , 'Mini Proposal '.$response, $message, $attachment);
 						if ($isSend){
 
-							// if ($response == "APPROVE"){
-							// 	$data_update = array(
-							// 		'list_user' => $row->account_name
-							// 	);
-							// 	$this->db->where('list_id', $row->list_id);
-							// 	$status = $this->db->update('tb_lists', $data_update);
-							// }
-
-							$message = "mini proposal request has been ".$response;	
+							// $message = "mini proposal request has been ".$response;	
+							$message = "\"The purchase request has been ".strtolower($response)."\". Go to dashboard and view \"Aprove/Reject Menu\" for history ";
+							$stat 	 	= "Info : ";
+							$type 	 	= "info";
 							$result = true;						
 						} else {
 							$message = "Send Email Failed ";
+							$stat 	 	= "Error ! ";
+							$type 	 	= "danger";
 						}
 					}				
 				} else {
 					$message = "Token sudah tidak berlaku";
+					$stat 	 = "Peringatan ! ";
+					$type 	 = "warning";
 				}
 			} else {
 				$message = "Token tidak valid";
+				$stat 	 = "Peringatan ! ";
+				$type 	 = "warning";
 			}
 		}
 
-		echo $this->message = $message;
+		// echo $this->message = $message;
+		
+		$parameter['type'] 		= $type;
+		$parameter['status'] 	= $stat;
+		$parameter['message'] 	= $message;
+		$this->load->view('message/confirmation_message', $parameter);
+		
 		return $result;
 	}
 
@@ -364,7 +441,10 @@ class Link extends CI_Controller {
 	}
 
 	public function forget_password($token=""){
-		$message = "";
+		$message 	= "";
+		$stat 		= "";
+		$type 		= "";
+
 		if ($token <> ""){
 
 			$sql 		= "SELECT 1 FROM tb_userapp WHERE token='$token'";
@@ -378,15 +458,23 @@ class Link extends CI_Controller {
 
 			} else {
 				$message = "Token not valid";
+				$stat 	 = "Warning ! ";
+				$type 	 = "warning";
 			}
 
 		} else {
-			$message = "Token not valid";			
+			$message = "Token not valid";
+			$stat 	 = "Warning ! ";
+			$type 	 = "warning";			
 		}
 		
 		
 
-		echo $this->message = $message;
+		// echo $this->message = $message;
+		$parameter['type'] 		= $type;
+		$parameter['status'] 	= $stat;
+		$parameter['message'] 	= $message;
+		$this->load->view('message/confirmation_message', $parameter);
 
 	}
 
