@@ -43,18 +43,6 @@
 											<input type="text" name="txt_account" id="txt_account" class="form-control" value="<?php echo $user->account_name; ?>" placeholder="Type name..." required />
 										</div>
 									</div>
-									<!-- <div class="form-group">
-										<label class="col-sm-3 control-label">Password</label>
-										<div class="col-sm-6">
-											<input type="password" name="txt_password" id="txt_password" class="form-control" value="" placeholder="Type password..." required />
-										</div>
-									</div> -->
-									<!-- <div class="form-group">
-										<label class="col-sm-3 control-label">Password Confirmation</label>
-										<div class="col-sm-6">
-											<input type="password" name="txt_password2" id="txt_password2" class="form-control" value="" placeholder="Type password..." required />
-										</div>
-									</div> -->
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Username</label>
 										<div class="col-sm-6">
@@ -96,7 +84,6 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Unit/Department</label>
 										<div class="col-sm-6">
-											<!-- <input type="text" name="txt_name" id="txt_name" class="form-control" value="" placeholder="Type name..." required /> -->
 											<select data-plugin-selectTwo class="form-control" id="txt_unit_select" name="txt_unit_select" style="width:100%">
 												<option value="" title="">Select...</option>
 												<?php foreach ($unit as $key => $value): ?>
@@ -112,7 +99,6 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Location</label>
 										<div class="col-sm-6">
-											<!-- <input type="text" name="txt_name" id="txt_name" class="form-control" value="" placeholder="Type name..." required /> -->
 											<select data-plugin-selectTwo class="form-control" id="txt_location_select" name="txt_location_select" style="width:100%">
 												<option value="" title="">Select...</option>
 												<?php foreach ($location as $key => $value): ?>
@@ -151,7 +137,7 @@
 									<div class="row">
 										<div class="col-md-12 text-right">
 											<button type="submit" class="btn btn-primary" id="btn_save" name="btn_save"><span class="glyphicon glyphicon-floppy-saved"></span> Update </button>
-											<a href="<?php echo base_url('users') ?>" class="btn btn-default pull-left" type="button"><span class="glyphicon glyphicon-off"></span> Back </a>
+											<a href="<?php echo base_url('Users') ?>" class="btn btn-default pull-left" type="button"><span class="glyphicon glyphicon-off"></span> Back </a>
 										</div>
 									</div>
 									<br/>

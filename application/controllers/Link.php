@@ -25,7 +25,7 @@ class Link extends CI_Controller {
 			$type 	 = "warning";
 		} else {
 			$sql = "SELECT T1.*, T2.subject, T2.submission_date, T2.purchase_number, T2.specification, T2.status statusQuotation, T3.vendor_name vendor
-					from tb_quotation_recipient T1 inner join tb_quotation T2 on T1.quotation_id=T2.id left join tb_vendor T3 on T3.vendor_email=t1.email 
+					from tb_quotation_recipient T1 inner join tb_quotation T2 on T1.quotation_id=T2.id left join tb_vendor T3 on T3.vendor_email=T1.email 
 					where token ='$token'";
 			$result = $this->db->query($sql)->row_array();
 

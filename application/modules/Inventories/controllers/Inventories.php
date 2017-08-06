@@ -12,7 +12,7 @@ class Inventories extends CI_Controller {
 		$now=date('Y-m-d H:i:s');
 		$this->load->model('M_inventories');
 		if(!$this->authenty->check_subscriber()){
-			redirect(base_url().'logout');
+			redirect(base_url().'Logout');
 		}
 	}
 

@@ -14,7 +14,7 @@ class Approve extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 		// $this->load->model('m_durations');
 		if(!$this->authenty->check_editor()){
-			redirect(base_url().'logout');
+			redirect(base_url().'Logout');
 		}
 	}
 

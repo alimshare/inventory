@@ -332,16 +332,22 @@ class Quotation extends CI_Controller {
 		$this->email->message($text);
 
 		// Attachment 
-		$path_dir= $this->config->item('quotation_path');//FCPATH.'documents/quotation/';
-		if ($attachment_tor <> ''){
-			$this->email->attach($path_dir.$attachment_tor);			
-		}
-		if ($attachment_rfq <> ''){
-			$this->email->attach($path_dir.$attachment_rfq);			
-		}
-		if ($attachment_invitation <> ''){
-			$this->email->attach($path_dir.$attachment_invitation);			
-		}
+		$path_dir= $this->config->item('quotation_path');
+		if ($attachment_tor <> ''){		
+			if ($this->email->attachment_cid($path_dir.$attachment_tor)=='') {
+				$this->email->attach($path_dir.$attachment_tor);							
+			}
+ 		}
+ 		if ($attachment_rfq <> ''){
+			if ($this->email->attachment_cid($path_dir.$attachment_rfq)=='') {
+				$this->email->attach($path_dir.$attachment_rfq);			
+			}
+ 		}
+ 		if ($attachment_invitation <> ''){
+			if ($this->email->attachment_cid($path_dir.$attachment_invitation)=='') {
+				$this->email->attach($path_dir.$attachment_invitation);
+			}
+ 		}
 
 		// You need to pass FALSE while sending in order for the email data
 		// to not be cleared - if that happens, print_debugger() would have

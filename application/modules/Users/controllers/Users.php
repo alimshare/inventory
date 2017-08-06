@@ -302,9 +302,13 @@ class Users extends CI_Controller {
  				WHERE T1.id='".$_SESSION['us_id']."'";
 		$data['user']	= $this->db->query($sql)->row();
 
-		$this->load->view('intranet_includes/v_header.php', $data);
-		$this->load->view('profile.php'); 
-		$this->load->view('intranet_includes/v_footer.php');
+		if ($data['user']==''){
+		    redirect('Users');
+		} else {
+    		$this->load->view('intranet_includes/v_header.php', $data);
+    		$this->load->view('profile.php'); 
+    		$this->load->view('intranet_includes/v_footer.php');
+			}
     }
 
     function updateProfile(){
