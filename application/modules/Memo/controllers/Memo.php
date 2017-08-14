@@ -46,8 +46,8 @@ class Memo extends CI_Controller {
 	}
 
 	public function saveProcess(){
-		echo "<pre>";
-		print_r($this->input->post());
+		//echo "<pre>";
+		//print_r($this->input->post());
 
 		$winner 		 = $this->input->post('txt_winner');
 		$justification 	 = $this->input->post('txt_justification');
@@ -111,9 +111,11 @@ class Memo extends CI_Controller {
 					redirect('Memo');
 				}
 			}
+		} else {
+
 		}
 
-		print_r($data_insert);
+		// print_r($data_insert);
 	}
 
 	public function data_json_all()
@@ -135,7 +137,7 @@ class Memo extends CI_Controller {
 
 	public function word($id){
 
-		include APPPATH.'libraries\PhpWord\Autoloader.php';
+		include APPPATH.'libraries/PHPWord/Autoloader.php';
 
 		$auto = new Autoloader();
 		$auto->register();

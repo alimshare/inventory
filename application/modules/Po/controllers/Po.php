@@ -179,7 +179,7 @@ class Po extends CI_Controller {
 	
 	private function word($id){
 		
-		include APPPATH.'libraries\PhpWord\Autoloader.php';
+		include APPPATH.'libraries/PhpWord/Autoloader.php';
 
 		$auto = new Autoloader();
 		$auto->register();

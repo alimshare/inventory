@@ -34,7 +34,7 @@ class M_memo extends CI_Model {
 			$row->vendor_address."<br>".$row->vendor_email,
             "<a href='".base_url()."documents/memo/".$row->attachment."' target='_blank'>Memo</a>",
 			"By: ".$row->create_by.", on date: ".date_format_id($row->create_date,2),
-			"<a  href='".base_url('po')."' href='".base_url('po')."' class='btn btn-success' title='PO'>Process</a>"
+			"<a href='".base_url('Po')."' class='btn btn-success' title='PO'>Process</a>"
 			);
 			$i++;
         }
